@@ -1,0 +1,29 @@
+name: PCU Appointment System CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 1. Checkout Repository Code
+        uses: actions/checkout@v4
+
+      - name: 2. Setup Node.js Runtime Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: 3. Install Backend Dependencies
+        run: npm install
+
+      - name: 4. Automated Check 1 - Verify Server Syntax
+        run: node --check server.js
+
+      - name: 5. Automated Check 2 - Verify Required Configuration Template
+        run: test -f .env.example
